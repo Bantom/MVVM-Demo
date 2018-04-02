@@ -48,6 +48,4 @@ class UserProfileViewModel(private val userProfileInteractor: UserProfileInterac
         compositeDisposable.clear()
         super.onCleared()
     }
-
-
 }

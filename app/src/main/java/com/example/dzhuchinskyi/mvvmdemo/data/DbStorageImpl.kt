@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 class DbStorageImpl : DbStorage {
     var offers = emptyList<Offer>()
-    var user = User(1, "Denis", "+380502677516")
+    var user = User(1, "Denis", "+38050111111")
 
     override fun getOffersByUserId(userId: Int): Single<List<Offer>> = Single.just(offers)
 

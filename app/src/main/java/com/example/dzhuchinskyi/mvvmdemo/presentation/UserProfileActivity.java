@@ -18,10 +18,10 @@ import javax.inject.Inject;
 public class UserProfileActivity extends AppCompatActivity {
     public static String TAG = "Demo";
 
-    ActivityProfileBinding activityUserProfileBinding;
-
     @Inject
     UserProfileViewModelFactory userProfileViewModelFactory;
+
+    ActivityProfileBinding activityUserProfileBinding;
 
     UserProfileViewModel userProfileViewModel;
 
@@ -52,12 +52,5 @@ public class UserProfileActivity extends AppCompatActivity {
                 Log.i(TAG, "Throwable: " + throwable);
             }
         });
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 }

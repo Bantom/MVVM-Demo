@@ -21,6 +21,6 @@ class ApiServiceImpl : ApiService {
     }
 
     override fun getUser(id: Int): Single<User> {
-        return Single.just(User(1, "Denis Zhuchinski", "+380936789367"))
+        return Single.just(User(1, "Denis Zhuchinski", "+380931111111"))
     }
 }
