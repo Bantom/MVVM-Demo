@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Demo</string>
+    <string name="phone">Phone</string>
+    <string name="name">Name</string>
+    <string name="offers_used">Offers used</string>
+    <string name="total_saved">Total saved</string>
+</resources>
