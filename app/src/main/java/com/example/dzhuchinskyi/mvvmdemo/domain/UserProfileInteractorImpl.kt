@@ -1,6 +1,5 @@
 package com.example.dzhuchinskyi.mvvmdemo.domain
 
-import com.example.dzhuchinskyi.mvvmdemo.App
 import com.example.dzhuchinskyi.mvvmdemo.data.model.Offer
 import com.example.dzhuchinskyi.mvvmdemo.data.OfferRepository
 import com.example.dzhuchinskyi.mvvmdemo.data.model.User
@@ -9,7 +8,7 @@ import io.reactivex.Single
 import io.reactivex.SingleSource
 import io.reactivex.functions.Function
 import io.reactivex.functions.BiFunction
-import javax.inject.Inject
+import org.koin.java.standalone.KoinJavaComponent.inject
 
 /**
  * Handles business logic ensuring that the latest data is exposed
@@ -17,18 +16,13 @@ import javax.inject.Inject
  */
 
 class UserProfileInteractorImpl : UserProfileInteractor {
-    @Inject
-    lateinit var userRepository: UserRepository
-    @Inject
-    lateinit var offerRepository: OfferRepository
+
+    private val userRepository: UserRepository by inject(UserRepository::class.java)
+    private val offerRepository: OfferRepository by inject(OfferRepository::class.java)
 
     private val timeout = 5000
     private var lastUpdatedMs = 0L
     private var needsUpdate = false
-
-    init {
-        App.getUserProfileComponent().inject(this)
-    }
 
     override fun getOffersByUserId(userId: Int): Single<List<Offer>> {
         needsUpdate = System.currentTimeMillis() > (lastUpdatedMs + timeout)

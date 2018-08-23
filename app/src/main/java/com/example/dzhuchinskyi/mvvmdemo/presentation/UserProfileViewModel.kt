@@ -3,7 +3,6 @@ package com.example.dzhuchinskyi.mvvmdemo.presentation
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.util.Log
 import com.example.dzhuchinskyi.mvvmdemo.domain.UserDataModel
 import com.example.dzhuchinskyi.mvvmdemo.domain.UserProfileInteractor
 import io.reactivex.Scheduler
