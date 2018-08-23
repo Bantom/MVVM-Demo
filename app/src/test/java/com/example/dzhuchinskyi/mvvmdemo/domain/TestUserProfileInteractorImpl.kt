@@ -5,34 +5,19 @@ import com.example.dzhuchinskyi.mvvmdemo.data.model.Offer
 import com.example.dzhuchinskyi.mvvmdemo.data.OfferRepository
 import com.example.dzhuchinskyi.mvvmdemo.data.model.User
 import com.example.dzhuchinskyi.mvvmdemo.data.UserRepository
-import com.example.dzhuchinskyi.mvvmdemo.di.DaggerTestUserProfileComponent
-import com.example.dzhuchinskyi.mvvmdemo.di.TestAppModule
-import com.example.dzhuchinskyi.mvvmdemo.di.TestUserProfileComponent
-import com.example.dzhuchinskyi.mvvmdemo.di.TestUserProfileModule
 import com.example.dzhuchinskyi.mvvmdemo.presentation.UserProfileActivity
 import io.reactivex.Single
 import io.reactivex.SingleSource
 import io.reactivex.functions.Function
 import io.reactivex.functions.BiFunction
-import javax.inject.Inject
+import org.koin.java.standalone.KoinJavaComponent.inject
 
 class TestUserProfileInteractorImpl : UserProfileInteractor {
-    @Inject
-    lateinit var userRepository: UserRepository
-    @Inject
-    lateinit var offerRepository: OfferRepository
+    private val userRepository: UserRepository by inject(UserRepository::class.java)
+    private val offerRepository: OfferRepository by inject(OfferRepository::class.java)
 
     private var lastUpdatedMs = 0L
     private var needsUpdates = false
-
-    val userProfileComponent: TestUserProfileComponent = DaggerTestUserProfileComponent.builder()
-            .testAppModule(TestAppModule())
-            .testUserProfileModule(TestUserProfileModule())
-            .build()
-
-    init {
-        userProfileComponent.inject(this)
-    }
 
 
     override fun getOffersByUserId(id: Int): Single<List<Offer>> {

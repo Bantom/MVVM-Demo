@@ -3,8 +3,7 @@ package com.example.dzhuchinskyi.mvvmdemo.presentation
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
-import com.example.dzhuchinskyi.mvvmdemo.di.DaggerTestProfileActivityComponent
-import com.example.dzhuchinskyi.mvvmdemo.di.TestActivityModule
+import com.example.dzhuchinskyi.mvvmdemo.di.*
 import com.example.dzhuchinskyi.mvvmdemo.domain.TestUserProfileInteractorImpl
 import com.example.dzhuchinskyi.mvvmdemo.domain.UserDataModel
 import io.reactivex.schedulers.Schedulers
@@ -15,18 +14,23 @@ import org.mockito.MockitoAnnotations
 import org.junit.Rule
 import org.mockito.Mockito.*
 import junit.framework.Assert.assertEquals
+import org.junit.After
+import org.koin.java.standalone.KoinJavaStarter.startKoin
+import org.koin.standalone.StandAloneContext.stopKoin
+import org.koin.test.KoinTest
 
 
-class UserProfileViewModelTest {
+class UserProfileViewModelTest : KoinTest {
     @Mock
     private lateinit var observer: Observer<UserDataModel>
 
-    private lateinit var liveData: MutableLiveData<UserDataModel>
-
-    lateinit var viewModel: UserProfileViewModel
-
     @Mock
     private lateinit var viewModelMocked: UserProfileViewModel
+
+    private lateinit var liveData: MutableLiveData<UserDataModel>
+
+    private lateinit var viewModel: UserProfileViewModel
+
 
     @Rule
     @JvmField
@@ -35,22 +39,21 @@ class UserProfileViewModelTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
+        startKoin(listOf(appModule, activityModule, userProfileModule))
 
         val userInteractor = TestUserProfileInteractorImpl()
 
-        val component = DaggerTestProfileActivityComponent
-                .builder()
-                .testActivityModule(TestActivityModule())
-                .testUserProfileComponent(userInteractor.userProfileComponent)
-                .build()
-        component.inject(this)
-
         viewModel = UserProfileViewModel(userInteractor, Schedulers.trampoline(), Schedulers.trampoline())
 
-        liveData = MutableLiveData<UserDataModel>()
+        liveData = MutableLiveData()
 
         `when`(viewModelMocked.getUserDataModel())
                 .thenReturn(liveData)
+    }
+
+    @After
+    fun after() {
+        stopKoin()
     }
 
     @Test
